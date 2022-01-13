@@ -1,4 +1,4 @@
-type IFromType = 'input' | 'password' | 'select' | 'datapicker'
+type IFromType = 'input' | 'password' | 'select' | 'datepicker'
 
 export interface IFormItem {
   field: string
@@ -14,5 +14,5 @@ export interface IForm {
   formItems: IFormItem[]
   labelWidth?: string
   colLayout?: any
-  itemLayout: any
+  itemLayout?: any
 }

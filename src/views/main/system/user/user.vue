@@ -1,74 +1,52 @@
 <template>
   <div class="user">
-    <page-search :searchformConfig="searchformConfig"></page-search>
-    <div class="content">
-      <hy-table :listData="userList" :propList="propList">
-        <template #createAt="scope">
-          <span>{{ $filters.formatTime(scope.row.createAt) }}</span>
-        </template>
-        <template #updateAt="scope">
-          <span>{{ $filters.formatTime(scope.row.createAt) }}</span>
-        </template>
-      </hy-table>
-    </div>
+    <page-search
+      :searchFormConfig="searchFormConfig"
+      @resetBtnClick="handleResetClick"
+      @queryBtnClick="handleQueryClick"
+    ></page-search>
+    <page-content
+      ref="pageContentRef"
+      :contentTableConfig="contentTableConfig"
+      pageName="users"
+    ></page-content>
+    <page-modal :modalConfig="modalConfig"></page-modal>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue'
-import { useStore } from 'vuex'
+import { defineComponent, ref } from 'vue'
 
-import pageSearch from '@/components/page-search'
-import HyTable from '@/base-ui/table'
+import PageSearch from '@/components/page-search'
+import PageContent from '@/components/page-content'
+import PageModal from '@/components/page-modal'
 
-import { searchformConfig } from './config/search.config'
+import { searchFormConfig } from './config/search.config'
+import { contentTableConfig } from './config/content.config'
+import { modalConfig } from './config/modal.config'
+
+import { usePageSearch } from '@/hooks/use-page-search'
 
 export default defineComponent({
   name: 'user',
   setup() {
-    const store = useStore()
-    store.dispatch('system/getPageListAction', {
-      pageUrl: 'users/list',
-      queryInfo: {
-        offset: 0,
-        size: 10
-      }
-    })
-    const userList = computed(() => store.state.system.userList)
-    const userCount = computed(() => store.state.system.userCount)
-    const propList: any[] = [
-      { prop: 'name', label: '角色名', minWidth: '100' },
-      { prop: 'intro', label: '权限介绍', minWidth: '100' },
-      {
-        prop: 'createAt',
-        label: '创建时间',
-        minWidth: '250',
-        slotName: 'createAt'
-      },
-      {
-        prop: 'updateAt',
-        label: '更新时间',
-        minWidth: '250',
-        slotName: 'updateAt'
-      },
-      { label: '操作', minWidth: '120', slotName: 'handler' }
-    ]
+    const [pageContentRef, handleResetClick, handleQueryClick] = usePageSearch()
+
     return {
-      searchformConfig,
-      userList,
-      propList
+      searchFormConfig,
+      contentTableConfig,
+      modalConfig,
+      pageContentRef,
+      handleResetClick,
+      handleQueryClick
     }
   },
   components: {
-    pageSearch,
-    HyTable
+    PageSearch,
+    PageContent,
+    PageModal
   }
 })
 </script>
 
-<style scoped>
-.content {
-  padding: 20px;
-  border-top: 20px solid #f5f5f5;
-}
-</style>
+<style scoped></style>

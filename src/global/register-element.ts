@@ -6,9 +6,12 @@ import {
   ChatLineRound,
   CircleClose,
   CirclePlusFilled,
+  Delete,
+  Edit,
   Goods,
   Monitor,
   PriceTag,
+  Refresh,
   RemoveFilled,
   Setting,
   UserFilled
@@ -26,7 +29,10 @@ const components = [
   Setting,
   Goods,
   ChatLineRound,
-  ArrowDown
+  ArrowDown,
+  Delete,
+  Edit,
+  Refresh
 ]
 
 export default function (app: App): void {
