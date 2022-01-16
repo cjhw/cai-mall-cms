@@ -51,8 +51,4 @@ export default defineComponent({
 })
 </script>
 
-<style scoped>
-.el-input__suffix {
-  width: 25px !important;
-}
-</style>
+<style scoped></style>
