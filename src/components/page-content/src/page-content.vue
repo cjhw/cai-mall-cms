@@ -8,8 +8,12 @@
     >
       <!-- header里的插槽 -->
       <template #header-hanlder>
-        <el-button v-if="isCreate" type="primary" size="medium"
-          >新建用户</el-button
+        <el-button
+          v-if="isCreate"
+          type="primary"
+          size="medium"
+          @click="handleNewClick"
+          >{{ contentTableConfig.newBtns }}</el-button
         >
       </template>
       <!-- 列里面的插槽 -->
@@ -29,7 +33,11 @@
       </template>
       <template #handler="scope">
         <div class="handle-btns">
-          <el-button size="mini" type="text" v-if="isUpdate"
+          <el-button
+            size="mini"
+            type="text"
+            v-if="isUpdate"
+            @click="handleEditClick(scope.row)"
             ><el-icon><edit /></el-icon> 编辑</el-button
           >
           <el-button
@@ -75,7 +83,8 @@ export default defineComponent({
       required: true
     }
   },
-  setup(props) {
+  emits: ['newBtnClick', 'editBtnClick'],
+  setup(props, { emit }) {
     const store = useStore()
     // 获取操作的权限
     const isCreate = usePermission(props.pageName, 'create')
@@ -126,6 +135,13 @@ export default defineComponent({
       })
     }
 
+    const handleNewClick = () => {
+      emit('newBtnClick')
+    }
+
+    const handleEditClick = (item: any) => {
+      emit('editBtnClick', item)
+    }
     return {
       dataList,
       getPageData,
@@ -136,7 +152,9 @@ export default defineComponent({
       isUpdate,
       isDelete,
       isQuery,
-      handleDeleteClick
+      handleDeleteClick,
+      handleEditClick,
+      handleNewClick
     }
   }
 })

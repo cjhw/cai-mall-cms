@@ -24,7 +24,7 @@ class HYRequest {
     )
     this.instance.interceptors.request.use(
       (config) => {
-        console.log('所有的实例都有的拦截器:请求成功拦截')
+        // console.log('所有的实例都有的拦截器:请求成功拦截')
         if (this.showLoading) {
           this.loading = ElLoading.service({
             text: '正在请求数据',
@@ -41,7 +41,7 @@ class HYRequest {
     )
     this.instance.interceptors.response.use(
       (res) => {
-        console.log('所有的实例都有的拦截器:响应成功拦截')
+        // console.log('所有的实例都有的拦截器:响应成功拦截')
         this.loading?.close()
         const data = res.data
         if (data.returnCode === -1001) {

@@ -39,16 +39,18 @@ const loginModule: Module<ILoginState, IrootState> = {
       })
       // 获取用户按钮的权限
       const permissions = mapMenusToPermissions(userMenus)
-
       state.permissions = permissions
     }
   },
   actions: {
-    async accountLoginAction({ commit }, payload: IAccount) {
+    async accountLoginAction({ commit, dispatch }, payload: IAccount) {
       const loginResult = await accountLoginRequest(payload)
       const { id, token } = loginResult.data
       commit('changeToken', token)
       localCache.setCache('token', token)
+
+      // 发送初始化的请求(完整的role/department)
+      dispatch('getInitalDataAction', null, { root: true })
 
       const userInfoResult = await requestUserInfoById(id)
       const userInfo = await userInfoResult.data
@@ -63,10 +65,12 @@ const loginModule: Module<ILoginState, IrootState> = {
       localCache.setCache('userMenus', userMenus)
       router.push('/main')
     },
-    loadLocalLogin({ commit }) {
+    loadLocalLogin({ commit, dispatch }) {
       const token = localCache.getCache('token')
       if (token) {
         commit('changeToken', token)
+        // 发送初始化的请求(完整的role/department)
+        dispatch('getInitalDataAction', null, { root: true })
       }
       const userInfo = localCache.getCache('userInfo')
       if (userInfo) {

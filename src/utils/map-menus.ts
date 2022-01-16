@@ -35,7 +35,6 @@ export function pathMapBreadcrumbs(userMenus: any[], currentPath: string) {
   pathMapToMenu(userMenus, currentPath, breadcrumbs)
   return breadcrumbs
 }
-
 // /main/system/role  -> type === 2 对应menu
 export function pathMapToMenu(
   userMenus: any[],
@@ -100,6 +99,21 @@ export function mapMenusToPermissions(userMenus: any[]) {
   }
   _recurseGetPermission(userMenus)
   return permissions
+}
+
+export function mapMenuLeafKeys(menuList: any[]) {
+  const leftKeys: number[] = []
+  const _recurseGetLeaf = (menuList: any[]) => {
+    for (const menu of menuList) {
+      if (menu.children) {
+        _recurseGetLeaf(menu.children)
+      } else {
+        leftKeys.push(menu.id)
+      }
+    }
+  }
+  _recurseGetLeaf(menuList)
+  return leftKeys
 }
 
 export { firstMenu }

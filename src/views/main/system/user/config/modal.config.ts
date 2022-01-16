@@ -1,6 +1,7 @@
 import { IForm } from '@/base-ui/form'
 
 export const modalConfig: IForm = {
+  title: '用户编辑',
   formItems: [
     {
       field: 'name',
@@ -18,8 +19,8 @@ export const modalConfig: IForm = {
       field: 'password',
       type: 'password',
       label: '用户密码',
-      placeholder: '请输入密码'
-      // isHidden: false
+      placeholder: '请输入密码',
+      isHidden: false
     },
     {
       field: 'cellphone',

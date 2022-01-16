@@ -8,9 +8,11 @@ export interface IFormItem {
   placeholder?: any
   options?: any[]
   otherOptions?: any
+  isHidden?: boolean
 }
 
 export interface IForm {
+  title?: string
   formItems: IFormItem[]
   labelWidth?: string
   colLayout?: any
